@@ -1,7 +1,9 @@
 package com.example.client.demo;
 
+import com.example.client.demo.user.UserDeleteClient;
 import com.example.client.demo.user.UserGetClient;
-//import com.example.client.demo.user.UserPostClient;
+import com.example.client.demo.user.UserPostClient;
+import com.example.client.demo.user.UserUpdateClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,9 +14,14 @@ public class DemoApplication {
         UserGetClient userGetClient = new UserGetClient();
         userGetClient.getClient();
 
-//        UserPostClient userPostClient = new UserPostClient():
-//        userPostClient.PostClient();
+        UserPostClient userPostClient = new UserPostClient();
+        userPostClient.PostClient();
 
+        UserDeleteClient userDeleteClient = new UserDeleteClient();
+        userDeleteClient.DeleteClient();
+
+        UserUpdateClient userUpdateClient = new UserUpdateClient();
+        userUpdateClient.UpdateClient();
     }
 
 }

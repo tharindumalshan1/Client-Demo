@@ -1,11 +1,13 @@
 package com.example.client.demo.user;
 
+import org.apache.commons.httpclient.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,15 +16,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@ConfigurationProperties(prefix = "endpoint")
+@Configuration
+@PropertySource("classpath:url.properties")
 public class UserGetClient {
 
- //private  String endpoint.getUsers;
+
 
     Logger logger = LoggerFactory.getLogger(UserGetClient.class);
 
+    @Value("${users.find-all}")
+    private String findAll;
+
        public void getClient(){
         try {
+            logger.info(findAll);
             URL url;
             url = new URL("http://localhost:9091/users");
             HttpURLConnection connectionGet = (HttpURLConnection) url.openConnection();
@@ -56,4 +63,5 @@ public class UserGetClient {
         }
 
     }
+
 }
