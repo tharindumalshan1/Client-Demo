@@ -1,27 +1,19 @@
 package com.example.client.demo;
 
-import com.example.client.demo.user.UserDeleteClient;
-import com.example.client.demo.user.UserGetClient;
-import com.example.client.demo.user.UserPostClient;
-import com.example.client.demo.user.UserUpdateClient;
-import org.springframework.boot.SpringApplication;
+import com.example.client.demo.user.UserClient;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class DemoApplication {
 
     public static void main(String[] args) {
-        UserGetClient userGetClient = new UserGetClient();
-        userGetClient.getClient();
 
-        UserPostClient userPostClient = new UserPostClient();
-        userPostClient.PostClient();
+        UserClient userClient = new UserClient();
+       // userClient.PostClient();
+        //userClient.DeleteClient();
+      //  userClient.UpdateClient();
+        userClient.getClient();
 
-        UserDeleteClient userDeleteClient = new UserDeleteClient();
-        userDeleteClient.DeleteClient();
-
-        UserUpdateClient userUpdateClient = new UserUpdateClient();
-        userUpdateClient.UpdateClient();
     }
 
 }
