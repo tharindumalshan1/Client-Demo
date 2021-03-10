@@ -6,13 +6,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] arg) {
 
         UserClient userClient = new UserClient();
-       // userClient.PostClient();
-        //userClient.DeleteClient();
-      //  userClient.UpdateClient();
-        userClient.getClient();
+        userClient.addNewUserClient();
+        userClient.deleteUserClient();
+        userClient.updateUserClient();
+        userClient.getUserListClient();
 
     }
 

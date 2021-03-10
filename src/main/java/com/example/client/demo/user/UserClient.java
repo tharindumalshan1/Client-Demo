@@ -4,110 +4,95 @@ package com.example.client.demo.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+
+
 
 public class UserClient {
 
     Logger logger = LoggerFactory.getLogger(UserClient.class);
 
-    public void PostClient(){
-        try {
 
-            URL url = new URL(
-                    "http://localhost:9091/add-user");
-            HttpURLConnection connectionPost = (HttpURLConnection) url.openConnection();
-            connectionPost.setDoOutput(true);
-            connectionPost.setRequestMethod("POST");
-            connectionPost.setRequestProperty("Content-Type", "application/json");
+    public void addNewUserClient() {
+        try {
+            URL url = new URL("http://localhost:9091/add-user");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
 
             String input = "{\"name\":\"SamanKumara\",\"email\":\"saman@gmail.com\"}";
 
-            CheckOutput(connectionPost, input, logger);
+            checkOutput(connection, input, logger);
 
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
         } catch (IOException e) {
-
+            logger.error("Error when Add new user");
             e.printStackTrace();
-
         }
 
     }
 
-        public void DeleteClient(){
+    public void deleteUserClient() {
 
-            try {
-                URL url = new URL(
-                        "http://localhost:9091/delete/13");
-                HttpURLConnection connectionDelete = (HttpURLConnection) url.openConnection();
-                connectionDelete.setRequestMethod("DELETE");
-                connectionDelete.setRequestProperty("Accept", "application/json");
+        try {
+            URL url = new URL(
+                    "http://localhost:9091/delete/13");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            connection.setRequestProperty("Accept", "application/json");
 
 
-                getResponse(connectionDelete, logger);
+            getResponse(connection, logger);
 
-            } catch (MalformedURLException e) {
-
-                e.printStackTrace();
-            } catch (IOException e) {
-
-                e.printStackTrace();
-
-            }
-
+        } catch (IOException e) {
+            logger.error("Error when Delete a user");
+            e.printStackTrace();
         }
 
-    public void UpdateClient(){
+    }
+
+    public void updateUserClient() {
         try {
 
             URL url = new URL(
                     "http://localhost:9091/update");
-            HttpURLConnection connectionUpdate = (HttpURLConnection) url.openConnection();
-            connectionUpdate.setDoOutput(true);
-            connectionUpdate.setRequestMethod("PUT");
-            connectionUpdate.setRequestProperty("Content-Type", "application/json");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            connection.setRequestProperty("Content-Type", "application/json");
 
             String input = "{\"id\":\"16\",\"name\":\"SamanA\",\"email\":\"saman@gmail.com\"}";
 
-            CheckOutput(connectionUpdate, input, logger);
+            checkOutput(connection, input, logger);
 
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
         } catch (IOException e) {
-
+            logger.error("Error when Update a new user ");
             e.printStackTrace();
-
         }
 
     }
 
-    public void  getClient(){
+
+    public void getUserListClient() {
         try {
             URL url = new URL("http://localhost:9091/users");
-            HttpURLConnection connectionGet = (HttpURLConnection) url.openConnection();
-            connectionGet.setRequestMethod("GET");
-            connectionGet.setRequestProperty("Accept", "application/json");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
 
-            getResponse(connectionGet, logger);
+            getResponse(connection, logger);
 
         } catch (IOException e) {
-
+            logger.error("Error when get Users from database");
             e.printStackTrace();
         }
 
     }
-        
 
 
-    static void CheckOutput(HttpURLConnection connection, String input, Logger logger) throws IOException {
+    static void checkOutput(HttpURLConnection connection, String input, Logger logger) throws IOException {
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(input.getBytes());
         outputStream.flush();
@@ -133,5 +118,5 @@ public class UserClient {
 
         connection.disconnect();
     }
-
 }
+
