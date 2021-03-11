@@ -3,29 +3,68 @@ package com.example.client.demo.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+@Component
+public class UserClientService {
 
-public class UserClient {
+    private Logger logger = LoggerFactory.getLogger(UserClientService.class);
 
-    Logger logger = LoggerFactory.getLogger(UserClient.class);
+    public static String postUrl;
+    public static String getUrl;
+    public static String updateUrl;
+    public static String deleteUrl;
+    public static String addUserInput;
+    public static String updateUserInput;
 
+
+    @Value("${user.post.url}")
+    public void setPostUrl(String url) {
+        postUrl = url;
+    }
+
+    @Value("${user.get.url}")
+    public void setGetUrl(String url) {
+        getUrl = url;
+    }
+
+    @Value("${user.update.url}")
+    public void setUpdateUrl(String url) {
+        updateUrl = url;
+    }
+
+    @Value("${user.delete.url}")
+    public void setDeleteUrl(String url) {
+        deleteUrl = url;
+    }
+
+    @Value("${user.post.input}")
+    public void setAddUserInput(String url) {
+        addUserInput = url;
+    }
+
+    @Value("${user.update.input}")
+    public void setUpdateUserInput(String url) {
+        updateUserInput = url;
+    }
 
     public void addNewUserClient() {
+        System.out.println(postUrl);
         try {
-            URL url = new URL("http://localhost:9091/add-user");
+            URL url = new URL(postUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            String input = "{\"name\":\"SamanKumara\",\"email\":\"saman@gmail.com\"}";
 
-            checkOutput(connection, input, logger);
+            checkOutput(connection, addUserInput, logger);
 
         } catch (IOException e) {
             logger.error("Error when Add new user");
@@ -37,8 +76,7 @@ public class UserClient {
     public void deleteUserClient() {
 
         try {
-            URL url = new URL(
-                    "http://localhost:9091/delete/13");
+            URL url = new URL(deleteUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("DELETE");
             connection.setRequestProperty("Accept", "application/json");
@@ -56,16 +94,13 @@ public class UserClient {
     public void updateUserClient() {
         try {
 
-            URL url = new URL(
-                    "http://localhost:9091/update");
+            URL url = new URL(updateUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            String input = "{\"id\":\"16\",\"name\":\"SamanA\",\"email\":\"saman@gmail.com\"}";
-
-            checkOutput(connection, input, logger);
+            checkOutput(connection, updateUserInput, logger);
 
         } catch (IOException e) {
             logger.error("Error when Update a new user ");
@@ -76,14 +111,15 @@ public class UserClient {
 
 
     public void getUserListClient() {
+
         try {
-            URL url = new URL("http://localhost:9091/users");
+
+            URL url = new URL(getUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
 
             getResponse(connection, logger);
-
         } catch (IOException e) {
             logger.error("Error when get Users from database");
             e.printStackTrace();
