@@ -54,6 +54,13 @@ public class UserClientService {
         updateUserInput = url;
     }
 
+
+    /**
+     * Check the add new user end point client
+     * @param addUserInput the new User to be created
+     * @param postUrl end point for the create new user
+     * @return the response from the  server
+     */
     public void addNewUserClient() {
         System.out.println(postUrl);
         try {
@@ -64,7 +71,7 @@ public class UserClientService {
             connection.setRequestProperty("Content-Type", "application/json");
 
 
-            checkOutput(connection, addUserInput, logger);
+            checkResponseFromServer(connection, addUserInput, logger);
 
         } catch (IOException e) {
             logger.error("Error when Add new user");
@@ -73,6 +80,11 @@ public class UserClientService {
 
     }
 
+    /**
+     * Check the delete a user endpoint
+     * @param deleteUrl is the endpoint url for delete user by id
+     * @return the response from the  server
+     */
     public void deleteUserClient() {
 
         try {
@@ -82,7 +94,7 @@ public class UserClientService {
             connection.setRequestProperty("Accept", "application/json");
 
 
-            getResponse(connection, logger);
+            checkResponseFromServer(connection, logger);
 
         } catch (IOException e) {
             logger.error("Error when Delete a user");
@@ -91,6 +103,12 @@ public class UserClientService {
 
     }
 
+    /**
+     * Check the update existing users endpoint
+     * @param updateUserInput the  User to be update
+     * @param updateUrl end point for the create new user
+     * @return the response from the  server
+     */
     public void updateUserClient() {
         try {
 
@@ -100,7 +118,7 @@ public class UserClientService {
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            checkOutput(connection, updateUserInput, logger);
+            checkResponseFromServer(connection, updateUserInput, logger);
 
         } catch (IOException e) {
             logger.error("Error when Update a new user ");
@@ -109,7 +127,11 @@ public class UserClientService {
 
     }
 
-
+    /**
+     * Check the get all  users endpoint
+     * @param getUrl end point for the get all the users
+     * @return the response from the  server
+     */
     public void getUserListClient() {
 
         try {
@@ -119,35 +141,41 @@ public class UserClientService {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/json");
 
-            getResponse(connection, logger);
+            checkResponseFromServer(connection, logger);
         } catch (IOException e) {
-            logger.error("Error when get Users from database");
+            logger.error("Error when get Users from database" , e);
             e.printStackTrace();
         }
 
     }
 
-
-    static void checkOutput(HttpURLConnection connection, String input, Logger logger) throws IOException {
+    /**
+     * Check the response from the server
+     * @param input for the create and update the users
+     * @param connection endpoint to be checked
+     * @return the response from the  server
+     */
+    static void checkResponseFromServer(HttpURLConnection connection, String input, Logger logger) throws IOException {
         OutputStream outputStream = connection.getOutputStream();
         outputStream.write(input.getBytes());
         outputStream.flush();
 
-        getResponse(connection, logger);
+        checkResponseFromServer(connection, logger);
     }
 
-    static void getResponse(HttpURLConnection connection, Logger logger) throws IOException {
+
+    static void checkResponseFromServer(HttpURLConnection connection, Logger logger) throws IOException {
         if (connection.getResponseCode() != 200) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + connection.getResponseCode());
         }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                 (connection.getInputStream())));
 
         String output;
         logger.info("Output from Server .... \n");
-        while ((output = br.readLine()) != null) {
+        while ((output = bufferedReader.readLine()) != null) {
 
             logger.info(output);
         }
